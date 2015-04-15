@@ -10,6 +10,8 @@
 #import <objc/runtime.h>
 #import "VZInspectorButtonIcons.h"
 
+#define kButtonStatusKey @"VZButtonStatusKey"
+
 @interface VZInspectorConsoleView()<UITextFieldDelegate>
 
 @property (nonatomic, strong) UITextView *consoleView;
@@ -30,6 +32,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.buttonIconsArray = @[[[VZBorderIcon  alloc] init],
+                                  [[VZGridIcon alloc] init],
                                   [[VZSandBoxIcon alloc] init],
                                   [[VZGridIcon alloc] init],
                                   [[VZExitIcon alloc] init]];
@@ -51,25 +54,10 @@
             button.tag = i;
             [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:button];
+            
+            objc_setAssociatedObject(button, kButtonStatusKey, @0, OBJC_ASSOCIATION_COPY);
         }
-//        VZExitIcon *exitIcon = [[VZExitIcon alloc] initWithFrame:CGRectMake(0, 0, kIconDimension, kIconDimension)];
-//        exitIcon.backgroundColor = [UIColor clearColor];
-//        [self addSubview:exitIcon];
-//        
-//        VZBorderIcon *borderIcon = [[VZBorderIcon  alloc] initWithFrame:CGRectMake(100, 100, kIconDimension, kIconDimension)];
-//        borderIcon.backgroundColor = [UIColor clearColor];
-//        [self addSubview:borderIcon];
-//        
-//        VZSandBoxIcon *sandBoxIcon = [[VZSandBoxIcon alloc] initWithFrame:CGRectMake(200, 200, kIconDimension, kIconDimension)];
-//        sandBoxIcon.backgroundColor = [UIColor clearColor];
-//        sandBoxIcon.layer.borderColor = [UIColor greenColor].CGColor;
-//        sandBoxIcon.layer.borderWidth = 0.5f;
-//        [self addSubview:sandBoxIcon];
-//        
-//        VZGridIcon *gridIcon = [[VZGridIcon alloc] initWithFrame:CGRectMake(20, 200, kIconDimension, kIconDimension)];
-//        gridIcon.backgroundColor = [UIColor clearColor];
-//        [self addSubview:gridIcon];
-//        
+
         
         
 //        self.oldFrm = frame;
@@ -117,36 +105,58 @@
     return self;
 }
 
-//  @[[[VZBorderIcon  alloc] init],
-//[[VZSandBoxIcon alloc] init],
-//[[VZGridIcon alloc] init],
-//[[VZExitIcon alloc] init]];
 - (void)buttonPressed:(UIButton *)button {
     switch (button.tag) {
-        case 0:
-            NSLog(@"border");
+        case 0://border
+        {
+            NSNumber *status = objc_getAssociatedObject(button, kButtonStatusKey);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-            [self.parentViewController performSelector:@selector(showBorder) withObject:nil];
+            [self.parentViewController performSelector:@selector(showBorder:) withObject:status];
 #pragma clang diagnostic pop
+            if (status.integerValue == 0) {
+                objc_setAssociatedObject(button, kButtonStatusKey, @1, OBJC_ASSOCIATION_COPY);
+            } else {
+                objc_setAssociatedObject(button, kButtonStatusKey, @0, OBJC_ASSOCIATION_COPY);
+            }
             break;
-        case 1:
-            NSLog(@"sandbox");
+        }
+        case 1://business view's border and class name
+        {
+            NSNumber *status = objc_getAssociatedObject(button, kButtonStatusKey);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            [self.parentViewController performSelector:@selector(showBusinessViewBorder:) withObject:status];
+#pragma clang diagnostic pop
+            if (status.integerValue == 0) {
+                objc_setAssociatedObject(button, kButtonStatusKey, @1, OBJC_ASSOCIATION_COPY);
+            } else {
+                objc_setAssociatedObject(button, kButtonStatusKey, @0, OBJC_ASSOCIATION_COPY);
+            }
+            break;
+        }
+        case 2://sandbox
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
             [self.parentViewController performSelector:@selector(showSandBox) withObject:nil];
 #pragma clang diagnostic pop
             break;
-        case 2:
-            NSLog(@"grid");
+        case 3://grid
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
             [self.parentViewController performSelector:@selector(showGrid) withObject:nil];
 #pragma clang diagnostic pop
             break;
-        case 3:
-            NSLog(@"exit");
+        case 4://exit
+        {
+            UIButton* btn = [UIButton new];
+            btn.tag = 10;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            [self.parentViewController performSelector:@selector(onBtnClikced:) withObject:btn];
+#pragma clang diagnostic pop
             break;
+        }
         default:
             break;
     }

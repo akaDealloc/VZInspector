@@ -9,6 +9,19 @@
 #import "ViewController.h"
 #import "VZHeapInspector.h"
 
+@interface VZTestView : UIView
+@end
+
+@implementation VZTestView
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor lightGrayColor];
+    }
+    return self;
+}
+@end
+
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic,strong) UITableView* tableView;
@@ -31,7 +44,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(load)];
@@ -44,6 +57,10 @@
     [self.view addSubview:self.tableView];
     
     [self load];
+    
+    //fake
+    VZTestView *testView = [[VZTestView alloc] initWithFrame:CGRectMake(50, 50, 100, 100)];
+    [self.view addSubview:testView];
 }
 
 - (void)didReceiveMemoryWarning {

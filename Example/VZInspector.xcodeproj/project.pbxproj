@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F022CD61ADD581F00325F3C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F022CD51ADD581F00325F3C /* ViewController.m */; };
 		1FF07E941ADBA47D00E0ACCA /* VZInspectorButtonIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF07E931ADBA47D00E0ACCA /* VZInspectorButtonIcons.m */; };
 		AF0FC50D19D11C66009CCBE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FC50C19D11C66009CCBE4 /* main.m */; };
 		AF0FC51019D11C66009CCBE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FC50F19D11C66009CCBE4 /* AppDelegate.m */; };
-		AF0FC51319D11C66009CCBE4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FC51219D11C66009CCBE4 /* ViewController.m */; };
 		AF0FC51619D11C66009CCBE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF0FC51419D11C66009CCBE4 /* Main.storyboard */; };
 		AF0FC51819D11C66009CCBE4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF0FC51719D11C66009CCBE4 /* Images.xcassets */; };
 		AF0FC51B19D11C66009CCBE4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0FC51919D11C66009CCBE4 /* LaunchScreen.xib */; };
@@ -44,6 +44,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F022CD41ADD581F00325F3C /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1F022CD51ADD581F00325F3C /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		1FF07E921ADBA47D00E0ACCA /* VZInspectorButtonIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VZInspectorButtonIcons.h; sourceTree = "<group>"; };
 		1FF07E931ADBA47D00E0ACCA /* VZInspectorButtonIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VZInspectorButtonIcons.m; sourceTree = "<group>"; };
 		AF0FC50719D11C66009CCBE4 /* VZInspector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VZInspector.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,8 +53,6 @@
 		AF0FC50C19D11C66009CCBE4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AF0FC50E19D11C66009CCBE4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AF0FC50F19D11C66009CCBE4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		AF0FC51119D11C66009CCBE4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		AF0FC51219D11C66009CCBE4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		AF0FC51519D11C66009CCBE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AF0FC51719D11C66009CCBE4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AF0FC51A19D11C66009CCBE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -146,8 +146,8 @@
 				AFAD0DD71A5CFAC900BC74C6 /* VZInspector */,
 				AF0FC50E19D11C66009CCBE4 /* AppDelegate.h */,
 				AF0FC50F19D11C66009CCBE4 /* AppDelegate.m */,
-				AF0FC51119D11C66009CCBE4 /* ViewController.h */,
-				AF0FC51219D11C66009CCBE4 /* ViewController.m */,
+				1F022CD41ADD581F00325F3C /* ViewController.h */,
+				1F022CD51ADD581F00325F3C /* ViewController.m */,
 				AF0FC51419D11C66009CCBE4 /* Main.storyboard */,
 				AF0FC51719D11C66009CCBE4 /* Images.xcassets */,
 				AF0FC51919D11C66009CCBE4 /* LaunchScreen.xib */,
@@ -308,8 +308,8 @@
 				AFAD0E151A5CFAC900BC74C6 /* VZInspectorCrashRootView.m in Sources */,
 				AFAD0E251A5CFAC900BC74C6 /* VZNetworkInspector.m in Sources */,
 				AFAD0E0F1A5CFAC900BC74C6 /* UIWindow+VZInspector.m in Sources */,
-				AF0FC51319D11C66009CCBE4 /* ViewController.m in Sources */,
 				AFAD0E181A5CFAC900BC74C6 /* VZInspectorHeapView.m in Sources */,
+				1F022CD61ADD581F00325F3C /* ViewController.m in Sources */,
 				AFAD0E131A5CFAC900BC74C6 /* VZInspector.m in Sources */,
 				AFAD0E121A5CFAC900BC74C6 /* VZInspectController.m in Sources */,
 				AFAD0E1F1A5CFAC900BC74C6 /* VZInspectorSettingView.m in Sources */,

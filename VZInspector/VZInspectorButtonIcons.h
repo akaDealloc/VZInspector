@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-static const int kIconDimension = 48;
+static const int kIconDimension = 42;
 static const int kIconPadding   = 6;
 static const float kIconLineWidth = 1;
 

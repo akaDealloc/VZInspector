@@ -15,7 +15,7 @@
     CGContextSetStrokeColorWithColor(context, [UIColor orangeColor].CGColor);
     CGContextSetLineWidth(context, kIconLineWidth);
     
-    int padding = kIconPadding * 2;
+    int padding = kIconPadding * 1.8;
     CGContextMoveToPoint(context, padding, padding);//upper-left
     CGContextAddLineToPoint(context, kIconDimension - padding, kIconDimension - padding);//lower-right
     CGContextMoveToPoint(context, kIconDimension - padding, padding);//upper-right
@@ -46,18 +46,18 @@
     CGContextSetLineWidth(context, kIconLineWidth);
     CGContextSetLineCap(context, kCGLineCapRound);
     
-    float radius = kIconDimension / 1.5;
+    float radius = (kIconDimension / 2 - kIconPadding / 2) * 1.414;
     //top
-    CGContextMoveToPoint(context, kIconPadding, kIconDimension / 2);
-    CGContextAddArcToPoint(context, kIconDimension / 2, kIconPadding * 2, kIconDimension - kIconPadding, kIconDimension / 2, radius);
+    CGContextMoveToPoint(context, kIconPadding / 2, kIconDimension / 2);
+    CGContextAddArcToPoint(context, kIconDimension / 2, kIconPadding / 2, kIconDimension - kIconPadding / 2, kIconDimension / 2, radius);
     CGContextStrokePath(context);
     //bottom
-    CGContextMoveToPoint(context, kIconPadding, kIconDimension / 2);
-    CGContextAddArcToPoint(context, kIconDimension / 2, kIconDimension - kIconPadding * 2, kIconDimension - kIconPadding, kIconDimension / 2, radius);
+    CGContextMoveToPoint(context, kIconPadding / 2, kIconDimension / 2);
+    CGContextAddArcToPoint(context, kIconDimension / 2, kIconDimension - kIconPadding / 2, kIconDimension - kIconPadding / 2, kIconDimension / 2, radius);
     CGContextStrokePath(context);
     //eyeball
     [[UIColor orangeColor] setFill];
-    CGContextAddArc(context, kIconDimension / 2, kIconDimension / 2, kIconDimension / 10, 0, M_PI * 2, 1);
+    CGContextAddArc(context, kIconDimension / 2, kIconDimension / 2, kIconDimension / 8, 0, M_PI * 2, 1);
     CGContextFillPath(context);
 }
 @end
@@ -69,7 +69,7 @@
     CGContextSetStrokeColorWithColor(context, [UIColor orangeColor].CGColor);
     CGContextSetLineWidth(context, kIconLineWidth);
     
-    float distance = 20;
+    float distance = kIconDimension / 3;
     float padding = (kIconDimension - distance) / 2;
     
     //horizontal
@@ -86,8 +86,8 @@
     CGContextSetStrokeColorWithColor(context, [UIColor orangeColor].CGColor);
     CGContextSetLineWidth(context, kIconLineWidth);
     CGContextSetShouldAntialias(context, NO);
-    CGContextMoveToPoint(context, startPt.x+0.5, startPt.y+0.5);
-    CGContextAddLineToPoint(context, endPt.x+0.5, endPt.y+0.5);
+    CGContextMoveToPoint(context, startPt.x, startPt.y);
+    CGContextAddLineToPoint(context, endPt.x, endPt.y);
     CGContextStrokePath(context);
     CGContextRestoreGState(context);
 }

@@ -14,7 +14,7 @@
 #import "VZOverviewInspector.h"
 #import "VZSettingInspector.h"
 #import "VZLogInspector.h"
-
+#import "VZInspectController.h"
 
 @implementation VZInspector
 
@@ -41,6 +41,7 @@
 + (void)setClassPrefixName:(NSString *)name
 {
     [VZHeapInspector setClassPrefixName:name];
+    [VZInspectController setClassPrefixName:name];
 }
 
 + (void)setShouldHandleCrash:(BOOL)b

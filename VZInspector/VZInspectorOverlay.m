@@ -56,6 +56,8 @@
         [self addSubview:btn];
         
     }
+    //fake
+    [VZInspector show];
     return self;
 }
 

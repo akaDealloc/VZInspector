@@ -14,6 +14,6 @@
 - (void)stop;
 
 - (BOOL)canTouchPassThrough:(CGPoint)pt;
-
++ (void)setClassPrefixName:(NSString* )name;
 
 @end

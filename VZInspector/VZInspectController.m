@@ -26,6 +26,9 @@
 #import "NSObject+VZInspector.h"
 #import "VZCrashInspector.h"
 
+static NSString* vz_tracking_classPrefix;
+static const int kClassNameImageViewTag = 999;
+static const int kClassNamePadding = 2;
 
 @interface VZInspectController()
 
@@ -41,6 +44,12 @@
 @property(nonatomic,assign) NSInteger currentIndex;
 @property(nonatomic,assign) NSNumber* performMemoryWarning;
 
+//border
+@property(nonatomic,strong) NSTimer *timer;
+@property(nonatomic,assign) float borderWidth;
+
+//business view's border
+@property(nonatomic,assign) BOOL ifShowBusinessBorder;
 @end
 
 @implementation VZInspectController
@@ -50,29 +59,10 @@
     return self.currentView;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    
-    if (self) {
-        
-    }
-    return self;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     self.currentIndex = 0;
     
     //create content view
@@ -87,18 +77,20 @@
     
     //2,logview
     self.logView = [[VZInspectorLogView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-40) parentViewController:self];
-
+    
     //3,consoleview
     self.consoleView = [[VZInspectorConsoleView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-40) parentViewController:self];
     
     //4,settingsview
     self.settingView = [[VZInspectorSettingView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-40) parentViewController:self];
     
-
-    [self.contentView addSubview:self.overview];
-    self.currentView = self.overview;
+    //fake
+    //    [self.contentView addSubview:self.overview];
+    //    self.currentView = self.overview;
+    [self.contentView addSubview:self.consoleView];
+    self.currentView = self.consoleView;
     
-
+    
     //4:tab
     for (int i=0; i<5; i++) {
         
@@ -238,6 +230,11 @@
     
 }
 
++ (void)setClassPrefixName:(NSString* )name
+{
+    vz_tracking_classPrefix = name;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private API
 
@@ -287,7 +284,7 @@
                 [self.overview updateGlobalInfo];
                 self.currentView = self.overview;
                 self.currentIndex = 0;
-
+                
             }];
             
             break;
@@ -316,11 +313,11 @@
             }
             
             [UIView transitionFromView:self.currentView toView:self.consoleView duration:0.4 options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
-               
-                    [self.currentView removeFromSuperview];
-                    [self.contentView addSubview:self.consoleView];
-                    self.currentView = self.consoleView;
-                    self.currentIndex = 2;
+                
+                [self.currentView removeFromSuperview];
+                [self.contentView addSubview:self.consoleView];
+                self.currentView = self.consoleView;
+                self.currentIndex = 2;
                 
             }];
             
@@ -367,7 +364,7 @@
         self.currentIndex = 2;
         
     }];
-
+    
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -399,39 +396,142 @@
         [self.view addSubview:gridView];
         self.currentView = gridView;
         self.currentIndex = -1;
-
+        
     }];
 }
 
-
-- (void)showBorder
+- (void)showBorder:(NSNumber *)status
 {
-    if ([UIWindow isSwizzled])
-    {
-        [UIWindow swizzle:NO];
+    self.ifShowBusinessBorder = NO;
+    [self updateBorderCore:status];
+}
+
+- (void)showBusinessViewBorder:(NSNumber *)status
+{
+    self.ifShowBusinessBorder = YES;
+    [self updateBorderCore:status];
+}
+
+- (void)updateBorderCore:(NSNumber *)status {
+    if (status.integerValue == 0) {
+        self.borderWidth = 0.5f;
+        [self updateBorderOfViewHierarchy];
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(updateBorderOfViewHierarchy) userInfo:nil repeats:YES];
     }
+    else {
+        [self.timer invalidate];
+        //remove border
+        //有个问题，会影响界面上原本有border的view，不过重新load后会恢复，暂时不管
+        self.borderWidth = 0;
+        [self updateBorderOfViewHierarchy];
+    }
+}
+
+- (void)updateBorderOfViewHierarchy {
+    UIViewController *currentVC = nil;
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    UIView *frontView = [[window subviews] objectAtIndex:0];
+    id nextResponder = [frontView nextResponder];
+    
+    if ([nextResponder isKindOfClass:[UIViewController class]])
+        currentVC = nextResponder;
     else
-    {
-        [UIWindow swizzle:YES];
-        [self onClose];
+        currentVC = window.rootViewController;
+    
+    [self drawBorderOfViewHierarchy:currentVC.view];
+}
+
+- (void)drawBorderOfViewHierarchy:(UIView *)view {
+    //do not draw class name imageview's border
+    if (view.tag == kClassNameImageViewTag) {
+        if (self.borderWidth == 0) {
+            //remove class name imageview
+            [view removeFromSuperview];
+        }
+        return;
     }
+    
+    if (self.ifShowBusinessBorder) {
+        //draw business view's class name
+        const char* clzname = object_getClassName(view);
+        if (vz_isTrackingObject(clzname))
+            [self drawClassName:clzname onView:view];
+        
+        //draw business view controller's class name
+        if ([view.nextResponder isKindOfClass:[UIViewController class]]) {
+            clzname = object_getClassName(view.nextResponder);
+            if (vz_isTrackingObject(clzname))
+                [self drawClassName:clzname onView:view];
+        }
+    } else {//all border
+        view.layer.borderWidth = self.borderWidth;
+        view.layer.borderColor = [UIColor orangeColor].CGColor;
+    }
+    
+    [view.subviews enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop) {
+        [self drawBorderOfViewHierarchy:subview];
+    }];
+}
+
+- (void)drawClassName:(const char*)clzname onView:(UIView *)view {
+    view.layer.borderWidth = self.borderWidth;
+    view.layer.borderColor = [UIColor greenColor].CGColor;
+    
+    BOOL flag = (view.subviews.count != 0) && (((UIView *)view.subviews[view.subviews.count - 1]).tag == kClassNameImageViewTag);
+    if (!flag) {
+        NSDictionary* stringAttrs = @{NSFontAttributeName : [UIFont systemFontOfSize:10], NSForegroundColorAttributeName : [UIColor greenColor]};
+        NSString *className = [[NSString alloc] initWithUTF8String:clzname];
+        //remove class prefix
+        className = [className substringFromIndex:vz_tracking_classPrefix.length];
+        //compute text size
+        CGSize temp = CGSizeMake(200, 30);
+        CGSize textSize = [className boundingRectWithSize:temp options:NSStringDrawingUsesFontLeading attributes:stringAttrs context:NULL].size;
+        
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(textSize.width + kClassNamePadding * 2, textSize.height + kClassNamePadding * 2), NO, 2.0);
+        NSAttributedString* attrStr = [[NSAttributedString alloc] initWithString:className attributes:stringAttrs];
+        [attrStr drawAtPoint:CGPointMake(kClassNamePadding, kClassNamePadding)];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        imageView.tag = kClassNameImageViewTag;
+        imageView.backgroundColor = [UIColor blackColor];
+        imageView.alpha = 0.5;
+        [view addSubview:imageView];
+    }
+}
+
+static inline bool vz_isTrackingObject(const char* className)
+{
+    bool ret = false;
+    NSString* clznameStr = [NSString stringWithUTF8String:className];
+    
+    if ([clznameStr hasPrefix:vz_tracking_classPrefix]) {
+        ret = true;
+    }
+    
+    if([clznameStr isEqualToString:@"NSAutoreleasePool"])
+    {
+        ret = false;
+    }
+    
+    return ret;
 }
 
 - (void)showHeap
 {
-    
     VZInspectorHeapView* heapView = [[VZInspectorHeapView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) parentViewController:self];
     
     [UIView transitionFromView:self.contentView toView:heapView
                       duration:0.4 options:UIViewAnimationOptionTransitionFlipFromLeft
                     completion:^(BOOL finished) {
-        
-        [self.contentView removeFromSuperview];
-        [self.view addSubview:heapView];
-        self.currentView = heapView;
-        self.currentIndex = -1;
-    }];
-
+                        
+                        [self.contentView removeFromSuperview];
+                        [self.view addSubview:heapView];
+                        self.currentView = heapView;
+                        self.currentIndex = -1;
+                    }];
+    
 }
 
 - (void)showCrashLogs
@@ -447,10 +547,7 @@
                         self.currentView = crashView;
                         self.currentIndex = -1;
                     }];
-
+    
 }
-
-
-
 
 @end
