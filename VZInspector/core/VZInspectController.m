@@ -28,6 +28,7 @@
 #import "VZInspectorDeviceView.h"
 #import "VZImageInspector.h"
 #import "VZInspectorLocationView.h"
+#import "VZCleanInspector.h"
 
 @interface VZInspectController()<VZInspectorToolboxViewCallback>
 
@@ -381,6 +382,12 @@
             [self showFakeLocation];
             break;
         }
+        case kClean:
+        {
+            [self cleanCache];
+            break;
+        }
+
         default:
             break;
     }
@@ -518,6 +525,11 @@
         _currentIndex = -1;
         
     }];
+}
+
+-(void)cleanCache
+{
+    [[VZCleanInspector sharedInstance] clean];
 }
 
 @end

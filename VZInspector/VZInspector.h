@@ -66,4 +66,9 @@
  */
 + (void)setProductionAPIEnvCallback:(void(^)(void))callback;
 
+/**
+ *清楚目录列表  @[@"Library/abc",@"Library/xxxx"]
+ */
++ (void)setCleanPathList:(NSArray *)pathList;
+
 @end

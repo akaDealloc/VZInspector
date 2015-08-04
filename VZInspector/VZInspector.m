@@ -17,6 +17,7 @@
 #import "VZInspectController.h"
 #import "VZNetworkObserver.h"
 #import "VZBorderInspector.h"
+#import "VZCleanInspector.h"
 
 @implementation VZInspector
 
@@ -90,4 +91,7 @@
     [VZSettingInspector sharedInstance].apiProductionCallback = callback;
 }
 
++ (void)setCleanPathList:(NSArray *)pathList{
+    [VZCleanInspector sharedInstance].pathList = pathList;
+}
 @end
