@@ -22,7 +22,8 @@ typedef NS_ENUM(NSInteger, VZToolBoxType)
     kReveal,
     kDevice,
     kImage,
-    kLocation
+    kLocation,
+    kClean
     
 };
 

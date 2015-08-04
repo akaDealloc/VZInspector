@@ -41,7 +41,8 @@
                    @{@"Warning":[VZInspectorResource memoryWarningOn]},
                    @{@"Device":[VZInspectorResource device]},
                    @{@"Image":[VZInspectorResource image]},
-                   @{@"Location":[VZInspectorResource location]}
+                   @{@"Location":[VZInspectorResource location]},
+                   @{@"Clean":[VZInspectorResource clean]}
                    ];
 
         
@@ -176,6 +177,12 @@
             _type = kLocation;
             break;
         }
+        case 11:
+        {
+            _type = kClean;
+            break;
+        }
+
             
         default:
             break;

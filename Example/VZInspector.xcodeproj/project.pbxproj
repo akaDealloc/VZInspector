@@ -66,6 +66,7 @@
 		52507B6A1B6BB2E500674807 /* VZDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 52507B671B6BB2E500674807 /* VZDevice.m */; };
 		52507B6B1B6BB2E500674807 /* VZInspectorDeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52507B691B6BB2E500674807 /* VZInspectorDeviceView.m */; };
 		52507B731B6BBF3000674807 /* VZImageInspector.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52507B721B6BBF3000674807 /* VZImageInspector.mm */; };
+		73A540B81B70B1D700E2F246 /* VZCleanInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A540B71B70B1D700E2F246 /* VZCleanInspector.m */; };
 		AF0FC50D19D11C66009CCBE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FC50C19D11C66009CCBE4 /* main.m */; };
 		AF0FC51019D11C66009CCBE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FC50F19D11C66009CCBE4 /* AppDelegate.m */; };
 		AF0FC51619D11C66009CCBE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF0FC51419D11C66009CCBE4 /* Main.storyboard */; };
@@ -190,6 +191,8 @@
 		52507B711B6BBF3000674807 /* VZImageInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VZImageInspector.h; sourceTree = "<group>"; };
 		52507B721B6BBF3000674807 /* VZImageInspector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VZImageInspector.mm; sourceTree = "<group>"; };
 		52C650591B6F713D00C43E0B /* VZDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VZDefine.h; path = ../../VZInspector/VZDefine.h; sourceTree = "<group>"; };
+		73A540B61B70B1D700E2F246 /* VZCleanInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VZCleanInspector.h; sourceTree = "<group>"; };
+		73A540B71B70B1D700E2F246 /* VZCleanInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VZCleanInspector.m; sourceTree = "<group>"; };
 		AF0FC50719D11C66009CCBE4 /* VZInspector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VZInspector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF0FC50B19D11C66009CCBE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF0FC50C19D11C66009CCBE4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -220,6 +223,7 @@
 		459B25DC1B182F48009BB189 /* VZInspector */ = {
 			isa = PBXGroup;
 			children = (
+				73A540B51B70B1B700E2F246 /* clean */,
 				52400ADE1B6E80D80077CBB3 /* location */,
 				52507B701B6BBF3000674807 /* image */,
 				52507B651B6BB2E500674807 /* device */,
@@ -496,6 +500,15 @@
 			path = image;
 			sourceTree = "<group>";
 		};
+		73A540B51B70B1B700E2F246 /* clean */ = {
+			isa = PBXGroup;
+			children = (
+				73A540B61B70B1D700E2F246 /* VZCleanInspector.h */,
+				73A540B71B70B1D700E2F246 /* VZCleanInspector.m */,
+			);
+			path = clean;
+			sourceTree = "<group>";
+		};
 		AF0FC4FE19D11C66009CCBE4 = {
 			isa = PBXGroup;
 			children = (
@@ -659,6 +672,7 @@
 				459B265A1B182F49009BB189 /* VZInspectorCrashRootView.m in Sources */,
 				459B26681B182F49009BB189 /* VZInspectorNetworkDetailView.m in Sources */,
 				459B26591B182F49009BB189 /* VZCrashInspector.m in Sources */,
+				73A540B81B70B1D700E2F246 /* VZCleanInspector.m in Sources */,
 				459B26771B182F49009BB189 /* UIWindow+VZInspector.m in Sources */,
 				459B26721B182F49009BB189 /* VZRevealInspector.mm in Sources */,
 				52400AE71B6E84290077CBB3 /* VZInspectorLocationView.m in Sources */,

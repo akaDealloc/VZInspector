@@ -41,4 +41,5 @@
 
 + (UIImage *)location;
 
++ (UIImage *)clean;
 @end
